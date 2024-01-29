@@ -15,6 +15,9 @@ jobs:
         shell: bash
         run: |
           npm i
+          rm -rf node_modules/
+          rm -rf package-lock.json
+          npm i
           rm -rf ./dist/
           npm run build-without-tsc
           sudo rm -rf /var/www/html/*
