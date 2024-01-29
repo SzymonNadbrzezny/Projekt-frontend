@@ -32,7 +32,7 @@
     "@tiptap/react": "^2.1.13",
     "@tiptap/starter-kit": "^2.1.13",
     "axios": "^1.6.2",
-    "cldr-data": "^36.0.0",
+    "cldr-data": "^36.0.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
