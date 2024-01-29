@@ -30,7 +30,7 @@
     "@tiptap/extension-typography": "^2.1.13",
     "@tiptap/pm": "^2.1.13",
     "@tiptap/react": "^2.1.13",
-    "@tiptap/starter-kit": "^2.1.13",
+    "@tiptap/starter-kit": "^2.2.0",
     "axios": "^1.6.2",
     "cldr-data": "^36.0.1",
     "localforage": "^1.10.0",
