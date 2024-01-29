@@ -36,7 +36,7 @@ const TRow = styled.tr`
   }
   &&:has(td:hover) {
     background-color: ${({ theme }) => theme.colors.primary["300"]};
-    color: ${({ theme }) => theme.colors.secondary["100"]};
+    /* color: ${({ theme }) => theme.colors.secondary["100"]}; */
   }
 `;
 const THeader = styled.th`
@@ -45,6 +45,11 @@ const THeader = styled.th`
   background-color: ${({ theme }) => theme.colors.primary["400"]};
   color: ${({ theme }) => theme.colors.secondary["200"]};
 `;
+const TSubHeader = styled(THeader)`
+  padding: 5px;
+  background-color: ${({ theme }) => theme.colors.primary["300"]};
+`;
+
 const Cell = styled.td`
   border: 1px solid ${({ theme }) => theme.colors.primary["700"]};
   padding: 10px;
@@ -189,6 +194,10 @@ const columns = [
     header: () => <span>Aktywny</span>,
     cell: (info) => (info.getValue() ? "Tak" : "Nie"),
   }),
+  columnHelper.display({
+    id: "actions",
+    cell: (props) => <RowActions row={props.row} />,
+  }),
 ];
 function UserList() {
   const data = useGetUsers();
@@ -243,7 +252,9 @@ const UserTable = (data: User[]) => {
             {row.getIsExpanded() && (
               <>
                 <TRow>
-                  <THeader colSpan={row.getVisibleCells().length}>JSON</THeader>
+                  <TSubHeader colSpan={row.getVisibleCells().length}>
+                    JSON
+                  </TSubHeader>
                 </TRow>
                 <TRow>
                   {/* 2nd row is a custom 1 cell row */}
@@ -264,6 +275,75 @@ const renderSubComponent = ({ row }: { row: Row<User> }) => {
   return (
     <pre style={{ fontSize: "10px" }}>
       <code>{JSON.stringify(row.original, null, 2)}</code>
+      {/* <PermissionContainer>
+        <Chips>
+          {row.original.permissions?.map((v, i) => (
+            <PermissionChip
+              key={v + i}
+              onClick={(e) => {
+                if (v == "user") return;
+                const user = row.original.permissions;
+                user.permissions = user.permissions?.filter((p) => p !== v);
+                ApiClient.updateUser(user.id, user);
+                queryClient.invalidateQueries("users");
+              }}
+            >
+              {v}
+              {v != "user" && <span>&times;</span>}
+            </PermissionChip>
+          ))}
+        </Chips>
+        <Dialog opener={<Button buttonStyle="tertiary">+</Button>}>
+          {(c) => {
+            return (
+              <Fragment>
+                <h1>Uprawnienia użytkownika</h1>
+                <p>
+                  Użytkownik ma uprawnienia:{" "}
+                  {row.original.permissions
+                    ?.map((v) => (v == "user" ? "Użytkownik" : v))
+                    .join(", ")}
+                </p>
+                <p>
+                  <button onClick={c.closeFunction}>OK</button>
+                </p>
+              </Fragment>
+            );
+          }}
+        </Dialog>
+      </PermissionContainer> */}
     </pre>
+  );
+};
+const Actions = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+const RowActions = ({ row }: { row: Row<User> }) => {
+  return (
+    <Actions>
+      <Button
+        buttonStyle="danger"
+        onClick={() => {
+          ApiClient.updateUser(row.original.id, {
+            ...row.original,
+            active: !row.original.active,
+          });
+          queryClient.invalidateQueries({ queryKey: ["users"] });
+        }}
+      >
+        {row.original.active ? "Deaktywuj" : "Aktywuj"}
+      </Button>
+      <Button
+        buttonStyle="danger"
+        onClick={() => {
+          ApiClient.deleteUser(row.original.id);
+          queryClient.invalidateQueries({ queryKey: ["users"] });
+        }}
+      >
+        Usuń
+      </Button>
+    </Actions>
   );
 };

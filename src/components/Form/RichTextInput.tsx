@@ -1,4 +1,4 @@
-import { EditorProvider, JSONContent } from "@tiptap/react";
+import { EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import styled from "styled-components";
 import { Color } from "@tiptap/extension-color";
@@ -101,7 +101,6 @@ function RichTextInput({
               } else {
                 setValue("picture", image);
               }
-
               getBase64(image).then((res) => {
                 const { schema } = view.state;
                 const coordinates = view.posAtCoords({
@@ -128,7 +127,7 @@ function RichTextInput({
         slotBefore={<RTIMenuBar />}
         onUpdate={({ editor }) => onChange(editor.getHTML())}
       >
-        test
+        {" "}
       </EditorProvider>
     </StyledEditor>
   );

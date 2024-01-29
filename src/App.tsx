@@ -15,6 +15,18 @@ import UserList from "./pages/Admin/UserList";
 import Posts from "./pages/Posts/Posts";
 import NewPost from "./pages/Posts/NewPost";
 import SpecificPost, { loader as postLoader } from "./pages/Posts/SpecificPost";
+import Planner from "./pages/Admin/Planner";
+import { registerLicense } from "@syncfusion/ej2-base";
+import { loadCldr } from "@syncfusion/ej2-base";
+import { setCulture, setCurrencyCode } from "@syncfusion/ej2-base";
+import * as numberData from "cldr-data/main/pl/numbers.json";
+import * as timezoneData from "cldr-data/main/pl/timeZoneNames.json";
+import * as gregorian from "cldr-data/main/pl/ca-gregorian.json";
+loadCldr(gregorian, numberData, timezoneData);
+setCulture("pl");
+registerLicense(
+  "Ngo9BigBOggjHTQxAR8/V1NAaF5cWWJCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWX5eeXRTR2ZdWUxxVkQ="
+);
 // const Test = () => {
 //   const query = useTest();
 //   return <div>{query.isLoading ? "Loading...." : query.data?.message}</div>;
@@ -61,6 +73,10 @@ const router = createBrowserRouter([
             path: "users",
             element: <UserList />,
           },
+          {
+            path: "planner",
+            element: <Planner />,
+          },
         ],
       },
     ],
@@ -76,6 +92,7 @@ function App() {
     <>
       <ThemeProvider theme={mainTheme}>
         <GlobalStyle />
+
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <RouterProvider router={router} />

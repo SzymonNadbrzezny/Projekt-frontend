@@ -14,6 +14,9 @@ export const useMe = () => {
     retry: (fC, error: AxiosError) => {
       return error?.response?.status === 401 ? false : true;
     },
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
+    refetchInterval: 1000 * 60 * 60,
   });
   return query;
 };
@@ -27,17 +30,26 @@ export const useGetUsers = (number?: number) => {
   const query = useQuery({
     queryKey: ["users"],
     queryFn: () => ApiClient.getUsers(number),
+    staleTime: 1000 * 60 * 20,
+    refetchInterval: 1000 * 60 * 60,
   });
   console.log(query.status);
   return query;
 };
-
+export const useGetEmployees = () => {
+  const query = useQuery({
+    queryKey: ["employees"],
+    queryFn: () => ApiClient.getEmployees(),
+    staleTime: 1000 * 60 * 20,
+    refetchInterval: 1000 * 60 * 60,
+  });
+  return query;
+};
 export const useGetUser = (id: number) => {
   const query = useQuery({
     queryKey: ["users", id],
     queryFn: () => ApiClient.getUser(id),
   });
-  console.log(query.data?.data);
   return query;
 };
 

@@ -56,6 +56,7 @@ const ServiceFooter = styled.div`
 
 export type ServiceProps = {
   service: {
+    id: number;
     category: string;
     name: string;
     description: string;

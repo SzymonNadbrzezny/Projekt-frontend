@@ -13,6 +13,7 @@ const Body = styled.div<{ $minified?: boolean }>`
   position: relative;
   gap: ${({ $minified }) => ($minified ? "0" : "2.5rem")};
   flex: 1;
+  width: 100%;
   border-radius: 0.9375rem;
   background: ${({ theme }) => theme.colors.primary["200"]};
   flex-direction: ${({ $minified }) => ($minified ? "column" : "row")};
@@ -113,7 +114,9 @@ function PostCard({
         <PostImage $minified={minified} src={img} title={title + "image"} />
       )}
       <PostBody $minified={minified}>
-        <PostTitle>{title}</PostTitle>
+        <PostTitle
+          dangerouslySetInnerHTML={{ __html: title as string }}
+        ></PostTitle>
         <PostContent
           $minified={minified}
           dangerouslySetInnerHTML={{ __html: children as string }}

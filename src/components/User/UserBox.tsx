@@ -10,9 +10,7 @@ import LoggedOutModal from "../Modal/LoggedOutModal";
 const Body = styled.div<{ open?: boolean }>`
   display: flex;
   flex-direction: column;
-  align-self: stretch;
-  background-color: ${({ open, theme }) =>
-    open ? theme.colors.light : "transparent"};
+  padding-right: 10px;
   > a {
     align-self: stretch;
     height: 100%;
@@ -24,8 +22,9 @@ const UserNameDisplay = styled.div`
   align-items: center;
   gap: 10px;
   padding: 10px;
-  height: 100%;
   align-self: stretch;
+  height: 100%;
+  min-height: 50px;
   &&:hover {
     cursor: pointer;
     background-color: color-mix(in oklab, transparent, gray 20%);
@@ -41,6 +40,7 @@ const UserNameDisplay = styled.div`
   }
 `;
 const Menu = styled.ul<{ open?: boolean }>`
+  margin-left: 0;
   display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   gap: 10px;
@@ -82,7 +82,7 @@ function UserBox() {
   const [loggedOut, setLoggedOut] = useState(currentUser ? false : false);
   const path = useLocation();
   const navigate = useNavigate();
-  console.log(currentUser);
+  // console.log(currentUser);
   return (
     <Body
       onMouseLeave={() => setIsOpen(false)}

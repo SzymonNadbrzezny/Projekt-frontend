@@ -16,6 +16,9 @@ function Dashboard() {
       <StyledLink to="/posts" linkType="button">
         Posty
       </StyledLink>
+      <StyledLink to="../planner" linkType="button">
+        Planer
+      </StyledLink>
     </Body>
   );
 }

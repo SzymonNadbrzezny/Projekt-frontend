@@ -89,9 +89,16 @@ export class ApiClient {
       })
       .then((res) => res.data);
   }
+  static async getClients() {
+    return axiosInstance.get<User[]>(`/clients`, {
+      headers: {
+        Authorization: this.getToken(),
+      },
+    });
+  }
   static async getUser(id: number) {
     return axiosInstance
-      .get(`/users/${id}`, {
+      .get<User>(`/users/${id}`, {
         headers: {
           Authorization: this.getToken(),
         },
@@ -100,12 +107,6 @@ export class ApiClient {
   }
   static async updateUser(id: number, user: User) {
     const userUpdate = { ...user };
-    delete userUpdate.confirmed_at;
-    delete userUpdate.failed_attempts;
-    delete userUpdate.locked_at;
-    delete userUpdate.created_at;
-    delete userUpdate.updated_at;
-    delete userUpdate.active;
     return axiosInstance.put(
       `/users/${id}`,
       { user: userUpdate },
@@ -138,6 +139,13 @@ export class ApiClient {
 
   static async getPermissions() {
     return axiosInstance.get(`/permissions`, {
+      headers: {
+        Authorization: this.getToken(),
+      },
+    });
+  }
+  static async getAppointments() {
+    return axiosInstance.get<TAppointment[]>(`/appointments`, {
       headers: {
         Authorization: this.getToken(),
       },
@@ -188,5 +196,32 @@ export class ApiClient {
       },
     });
   }
+  static async getEmployees() {
+    return axiosInstance
+      .get<User[]>(`/employees`, {
+        headers: {
+          Authorization: this.getToken(),
+        },
+      })
+      .then((res) => res);
+  }
+  static patch = (url: string, data: any) =>
+    axiosInstance.patch(url, data, {
+      headers: {
+        Authorization: this.getToken(),
+      },
+    });
+  static delete = (url: string) =>
+    axiosInstance.delete(url, {
+      headers: {
+        Authorization: this.getToken(),
+      },
+    });
+  static post = (url: string, data: any) =>
+    axiosInstance.post(url, data, {
+      headers: {
+        Authorization: this.getToken(),
+      },
+    });
 }
 export type getPostsParams = { limit?: number };

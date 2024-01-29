@@ -50,7 +50,7 @@ function SpecificPost() {
             Powrót
           </StyledLink>
         </NavRow>
-        <h1>{post.title}</h1>
+        <h1 dangerouslySetInnerHTML={{ __html: post.title as string }}></h1>
         <PostBody
           id="body"
           dangerouslySetInnerHTML={{ __html: postContent }}

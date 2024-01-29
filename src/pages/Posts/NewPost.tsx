@@ -4,7 +4,12 @@ import Button from "@/components/Utils/StyledButton";
 import { JSONContent } from "@tiptap/react";
 import React from "react";
 import styled from "styled-components";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { debounce } from "@/Utils/debounce";
 import { getBase64 } from "@/Utils/getBase64";
@@ -14,17 +19,16 @@ const Form = styled.form`
   flex-direction: column;
   gap: 20px;
 `;
-
+type FormValues = {
+  title: string;
+  description: string;
+  picture: File | File[];
+};
 function NewPost() {
-  const [output, setOutput] = React.useState<JSONContent | null>(null);
   const mutation = useCreatePost();
-  const methods = useForm();
+  const methods = useForm<FormValues>();
 
-  const onSubmit = async (data: {
-    title: string;
-    description: string;
-    picture: File | File[];
-  }) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const { title, description, picture } = data;
     let pictures = [];
     let desc = description;
@@ -33,7 +37,7 @@ function NewPost() {
     } else {
       pictures = picture;
     }
-
+    pictures = pictures.filter(Boolean);
     for (let i = 0; i < pictures.length; i++) {
       const base64 = (await getBase64(pictures[i])) as string;
       // console.log(desc.match(`<img src="${base64}" />`));
@@ -43,8 +47,8 @@ function NewPost() {
     post.append("post[title]", title);
     post.append("post[description]", desc);
     pictures.forEach((pic, i) => post.append(`post[pictures][]`, pic));
+
     mutation.mutate(post);
-    // Call your mutation function here with the data object
   };
 
   return (
@@ -76,7 +80,9 @@ function NewPost() {
             defaultValue=""
           />
           <DevTool control={methods.control} /> {/* set up the dev tool */}
-          <Button type="submit">Dodaj</Button>
+          <Button type="submit" disabled={methods.formState.isSubmitting}>
+            Dodaj
+          </Button>
         </Form>
       </FormProvider>
     </div>

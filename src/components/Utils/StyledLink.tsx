@@ -26,6 +26,7 @@ const SLink = styled(Link)<StyledLinkProps>`
   text-decoration: none;
   line-height: 1.3;
   border-radius: 5px;
+  text-wrap: balance;
   ${({ $outlined }) =>
     $outlined &&
     css`

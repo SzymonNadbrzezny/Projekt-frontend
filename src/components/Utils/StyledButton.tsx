@@ -1,7 +1,13 @@
 import { ComponentProps } from "react";
 import styled, { css } from "styled-components";
 
-type ButtonStyles = "primary" | "secondary" | "tertiary" | "nav" | "text";
+type ButtonStyles =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "nav"
+  | "text"
+  | "danger";
 type ButtonProps = ComponentProps<"button"> & {
   buttonStyle?: ButtonStyles;
   outlined?: boolean;
@@ -98,6 +104,13 @@ function colorHandler(style: string) {
         --text-color: ${({ theme }) => theme.colors.secondary["900"]};
         --background-color: transparent;
         --hover-text-color: ${({ theme }) => theme.colors.secondary["500"]};
+      `;
+    case "danger":
+      return css`
+        --text-color: color-mix(in oklab, white, #de4b4b 50%);
+        --background-color: #a43b3b;
+        --hover-text-color: color-mix(in oklab, white, #de4b4b 30%);
+        --hover-background-color: color-mix(in oklab, #de4b4b, #a43b3b 60%);
       `;
     case "nav":
       return css`
