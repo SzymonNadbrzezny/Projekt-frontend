@@ -5,7 +5,7 @@ import { registerLicense } from "@syncfusion/ej2-base";
 import "./index.css";
 
 registerLicense(
-  "Ngo9BigBOggjHTQxAR8/V1NAaF5cWWJCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWX5eeXRTR2ZdWUxxVkQ="
+  "Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjWHxfcHxVRGBVWE12Vw=="
 );
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
