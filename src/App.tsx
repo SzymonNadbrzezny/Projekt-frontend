@@ -21,6 +21,7 @@ import { setCulture, setCurrencyCode } from "@syncfusion/ej2-base";
 import * as numberData from "cldr-data/main/pl/numbers.json";
 import * as timezoneData from "cldr-data/main/pl/timeZoneNames.json";
 import * as gregorian from "cldr-data/main/pl/ca-gregorian.json";
+import { useEffect } from "react";
 loadCldr(gregorian, numberData, timezoneData);
 setCulture("pl");
 
@@ -85,6 +86,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useEffect(() => {
+    const t = document.getElementById("root")?.parentNode;
+    if (t?.children?.length ?? 0 > 1) {
+      t?.children[1].remove();
+    }
+  }, []);
   return (
     <>
       <ThemeProvider theme={mainTheme}>
