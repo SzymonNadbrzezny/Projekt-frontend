@@ -79,13 +79,13 @@ const PermissionChip = styled.span<PermissionChipProps>`
   display: inline-flex;
   align-items: center;
   padding: 5px;
-  background-color: ${({ theme }) => theme.colors.secondary["400"]};
+  background-color: ${({ theme }) => theme.colors.primary["400"]};
   border-radius: 10px;
-  color: ${({ theme }) => theme.colors.primary["600"]};
+  color: ${({ theme }) => theme.colors.primary["100"]};
   gap: 5px;
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.colors.secondary["500"]};
+    box-shadow: 0 4px 8px 0px ${({ theme }) => theme.colors.primary["800"]};
     font-weight: 600;
   }
   button {
@@ -151,19 +151,21 @@ const columns = [
     cell: (info) => (
       <PermissionContainer>
         <Chips>
+          <PermissionChip key="user" onClick={() => {}}>
+            Użytkownik
+          </PermissionChip>
           {info.getValue()?.map((v, i) => (
             <PermissionChip
-              key={v + i}
-              onClick={(e) => {
-                if (v == "user") return;
+              key={`${v}` + i}
+              onClick={(_) => {
                 const user = info.row.original;
                 user.permissions = user.permissions?.filter((p) => p !== v);
                 ApiClient.updateUser(user.id, user);
-                queryClient.invalidateQueries("users");
+                queryClient.invalidateQueries({ queryKey: ["users"] });
               }}
             >
-              {v}
-              {v != "user" && <span>&times;</span>}
+              {`${v}`}
+              <span>&times;</span>
             </PermissionChip>
           ))}
         </Chips>
@@ -172,13 +174,7 @@ const columns = [
             return (
               <Fragment>
                 <h1>Uprawnienia użytkownika</h1>
-                <p>
-                  Użytkownik ma uprawnienia:{" "}
-                  {info
-                    .getValue()
-                    ?.map((v) => (v == "user" ? "Użytkownik" : v))
-                    .join(", ")}
-                </p>
+                <p>Użytkownik ma uprawnienia: {info.getValue().join(", ")}</p>
                 <p>
                   <button onClick={c.closeFunction}>OK</button>
                 </p>
