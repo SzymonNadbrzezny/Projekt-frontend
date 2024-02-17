@@ -1,5 +1,4 @@
 import { InputHTMLAttributes, Ref, forwardRef, useId } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
 
 const Body = styled.div`

@@ -101,16 +101,15 @@ export default function Planner() {
   });
   scheduleObj.actionBegin = (args: ActionEventArgs) => {
     let weekEnds: number[] = [0, 6];
+    // Blokada tworzenia wydarzeń w weekendy
     if (
       args.requestType == "eventCreate" &&
-      //@ts-expect-error
-      weekEnds.indexOf(args?.data?.[0]?.StartTime.getDay()) >= 0
+      weekEnds.indexOf(args?.data?.[0]?.StartTime.getDay() as number) >= 0
     ) {
-      console.log(args.data);
       args.cancel = true;
       return;
     }
-    console.log(args.requestType);
+    // Tworzenie nowego wydarzenia
     if (args.requestType == "eventCreate") {
       appointmentsMutation.mutate({
         appointment: {
@@ -123,18 +122,8 @@ export default function Planner() {
         },
       });
     }
+    // Aktualizacja wydarzenia
     if (args.requestType == "eventChange") {
-      console.log({
-        id: args.data.id,
-        appointment: {
-          service_id: args.data.serviceId,
-          worker_id: args.data.workerId,
-          client_id: args.data.clientId,
-          date: (args.data.StartTime as Date).toUTCString(),
-          end_date: (args.data.EndTime as Date).toUTCString(),
-          comment: args.data.Description.split("\n---\n")[1],
-        },
-      });
       appointmentsMutation.mutate({
         type: "update",
         id: args.data.id,
@@ -148,6 +137,7 @@ export default function Planner() {
         },
       });
     }
+    // Usuwanie wydarzenia
     if (args.requestType == "eventRemove") {
       appointmentsMutation.mutate({
         type: "delete",
@@ -188,10 +178,6 @@ export default function Planner() {
       colorField: "color",
     },
   ];
-  const s = document.getElementById("Schedule");
-  s?.childNodes.forEach((node) => {
-    s.removeChild(node);
-  });
   scheduleObj.appendTo("#Schedule");
   return (
     <div>

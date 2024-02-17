@@ -14,6 +14,7 @@ export const useMe = () => {
     retry: (fC, error: AxiosError) => {
       return error?.response?.status === 401 ? false : true;
     },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60,
     refetchInterval: 1000 * 60 * 60,

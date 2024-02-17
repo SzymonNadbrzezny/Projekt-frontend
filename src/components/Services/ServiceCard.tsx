@@ -2,6 +2,7 @@ import styled from "styled-components";
 import StyledLink from "../Utils/StyledLink";
 import { useContext } from "react";
 import { userContext } from "../../API/apiClient";
+import { useNavigate } from "react-router-dom";
 
 const ServiceBody = styled.div`
   display: flex;
@@ -84,6 +85,7 @@ function ServiceCard({ service }: ServiceProps) {
   const { currentUser } = useContext(userContext);
   // @ts-expect-error
   const isMobile = navigator.userAgentData?.mobile ?? false;
+  const navigate = useNavigate();
   return (
     <Service>
       <ServiceTitle>
@@ -99,7 +101,10 @@ function ServiceCard({ service }: ServiceProps) {
                 e.stopPropagation();
               }}
             >
-              <StyledButton disabled={!currentUser}>
+              <StyledButton
+                disabled={!currentUser}
+                onClick={() => navigate("/visit/new/" + service.id)}
+              >
                 {currentUser
                   ? "Umów wizytę online"
                   : "Zaloguj się, aby umawiać wizyty online"}

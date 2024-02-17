@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 import Test from "../../../pages/Test";
-
+import Trash from "@assets/trash.svg";
 const MenuBar = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -79,7 +79,7 @@ function RTIMenuBar() {
               .run();
           }}
         >
-          delete Node
+          <img src={Trash} />
         </button>
       }
       <select
@@ -101,13 +101,13 @@ function RTIMenuBar() {
           }
         }}
       >
-        <option value="paragraph">paragraph</option>
-        <option value="h1">Heading 1</option>
-        <option value="h2">Heading 2</option>
-        <option value="h3">Heading 3</option>
-        <option value="h4">Heading 4</option>
-        <option value="h5">Heading 5</option>
-        <option value="h6">Heading 6</option>
+        <option value="paragraph">Paragraf</option>
+        <option value="h1">Nagłówek 1</option>
+        <option value="h2">Nagłówek 2</option>
+        <option value="h3">Nagłówek 3</option>
+        <option value="h4">Nagłówek 4</option>
+        <option value="h5">Nagłówek 5</option>
+        <option value="h6">Nagłówek 6</option>
       </select>
       <div>
         <button
@@ -152,22 +152,22 @@ function RTIMenuBar() {
         </button>
       </div>
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
+        Linia pozioma
       </button>
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
+        Nowa linia
       </button>
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
       >
-        undo
+        cofnij
       </button>
       <button
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
       >
-        redo
+        powtórz
       </button>
 
       {/* <button

@@ -60,9 +60,10 @@ function SpecificPost() {
   );
 }
 
-export const loader = async ({ params }: { params: { id: number } }) => {
-  queryClient.prefetchQuery(["post", params.id], () => {
-    return ApiClient.getPost(params.id);
+export const loader = async ({ params }) => {
+  queryClient.prefetchQuery({
+    queryKey: ["post", params.id],
+    queryFn: () => ApiClient.getPost(params.id),
   });
   return { id: params.id };
 };

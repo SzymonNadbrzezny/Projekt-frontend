@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Button from "../Utils/StyledButton";
 import Dialog from "./Dialog";
 import cross from "@assets/cross.svg";
-import { ReactElement } from "react";
+import { ReactElement, forwardRef } from "react";
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +10,8 @@ const ModalBody = styled.div`
   align-items: stretch;
   min-width: 300px;
   max-width: 60vw;
+  isolation: isolate;
+  z-index: 100;
 `;
 const ModalHeader = styled.div`
   display: flex;
@@ -37,31 +39,31 @@ type TitledModalProps = {
     submitFunction?: (value: boolean) => void;
   }) => React.ReactNode;
 };
-function TitledModal({
-  title,
-  opener = <Button>Open Modal</Button>,
-  children,
-}: TitledModalProps) {
-  return (
-    <Dialog opener={opener}>
-      {(props) => {
-        return (
-          <ModalBody>
-            <ModalHeader>
-              <span>{title}</span>
-              <img src={cross} />
-            </ModalHeader>
-            <ModalContent>
-              {children({
-                closeFunction: props.closeFunction,
-                submitFunction: props.submitFunction,
-              })}
-            </ModalContent>
-          </ModalBody>
-        );
-      }}
-    </Dialog>
-  );
-}
 
+const TitledModal = forwardRef<HTMLDialogElement, TitledModalProps>(
+  ({ title, opener = <Button>Open Modal</Button>, children }, ref) => {
+    return (
+      <Dialog ref={ref} opener={opener}>
+        {(props) => {
+          return (
+            <ModalBody>
+              <ModalHeader>
+                <span>{title}</span>
+                <Button buttonStyle="text" onClick={props.closeFunction}>
+                  <img src={cross} />
+                </Button>
+              </ModalHeader>
+              <ModalContent>
+                {children({
+                  closeFunction: props.closeFunction,
+                  submitFunction: props.submitFunction,
+                })}
+              </ModalContent>
+            </ModalBody>
+          );
+        }}
+      </Dialog>
+    );
+  }
+);
 export default TitledModal;

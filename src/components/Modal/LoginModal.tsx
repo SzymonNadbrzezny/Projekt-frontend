@@ -102,10 +102,8 @@ function LoginForm({
         if (res.code == 200) {
           return ApiClient.me().then((res) => {
             console.log(res);
-            if (res.status == 200) {
-              loginFn(res.data);
-              return true;
-            }
+            loginFn(res);
+            return true;
           });
         }
       })
@@ -216,35 +214,35 @@ function RegisterForm({
   };
   return (
     <>
-      <h3>Register</h3>
+      <h3>Rejestracja</h3>
       <Form onSubmit={handleSubmit(onSubmit)} name="loginForm" method="get">
         <Input
           type="email"
-          placeholder="email"
+          placeholder="Email"
           error={errors.email?.message}
           {...register("email", { required: true })}
           label="Email"
         />
         <Input
           type="text"
-          placeholder="name"
+          placeholder="Imię i nazwisko"
           error={errors.name?.message}
           {...register("name", { required: true })}
-          label="name"
+          label="Imię i nazwisko"
         />
         <Input
           type="password"
-          placeholder="password"
+          placeholder="Hasło"
           error={errors.password?.message}
           {...register("password", { required: true })}
-          label="password"
+          label="Hasło"
         />
         <Input
           type="password"
-          placeholder="Password confirmation"
+          placeholder="Potwierdź hasło"
           error={errors.password_confirmation?.message}
           {...register("password_confirmation", { required: true })}
-          label="Password confirmation"
+          label="Potwierdź hasło"
         />
         <FormRow>
           <Button

@@ -2,6 +2,7 @@ import { ServiceProps } from "@/components/Services/ServiceCard";
 import { useGetServices } from "../../API/hooks/ServiceHooks";
 import CategoryCard from "../../components/Categories/CategoryCard";
 import styled from "styled-components";
+
 const Body = styled.div`
   width: 100%;
   display: flex;
@@ -12,6 +13,7 @@ const Body = styled.div`
     flex-direction: column;
   }
 `;
+
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,18 +22,27 @@ const Column = styled.div`
 `;
 
 function Services() {
+  // Pobranie usług z API
+  // useGetServices to hook, który w środu stosuje useQuery z biblioteki react-query
   const { data } = useGetServices();
   const services = data?.data ?? [];
-  const groupedServicesObject = services.reduce((acc, service) => {
-    if (!acc[service.category as keyof typeof acc]) {
-      acc[service.category as keyof typeof acc] = [];
-    }
-    acc[service.category as keyof typeof acc].push(service);
-    return acc;
-  }, {});
+  // Tworzenie obiektu z usługami pogrupowanymi według kategorii
+  const groupedServicesObject = services.reduce(
+    (acc: Record<string, ServiceProps["service"][]>, service) => {
+      if (!acc[service.category as keyof typeof acc]) {
+        acc[service.category as keyof typeof acc] = [];
+      }
+      acc[service.category as keyof typeof acc].push(service);
+      return acc;
+    },
+    {}
+  );
+  // Tworzenie tablicy kategorii z usługami
   const groupedServices = Object.entries(groupedServicesObject).sort((a, b) =>
     a[0].localeCompare(b[0])
   ) as [string, ServiceProps["service"][]][];
+
+  // Podział tablicy na dwie części
   const firstHalf = groupedServices.slice(
     0,
     Math.ceil(Object.keys(groupedServices).length / 2)
@@ -50,6 +61,7 @@ function Services() {
 }
 
 export default Services;
+
 function CategoryColumn(CategoryData: [string, ServiceProps["service"][]][]) {
   return (
     <Column>

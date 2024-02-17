@@ -22,13 +22,10 @@ import * as numberData from "cldr-data/main/pl/numbers.json";
 import * as timezoneData from "cldr-data/main/pl/timeZoneNames.json";
 import * as gregorian from "cldr-data/main/pl/ca-gregorian.json";
 import { useEffect } from "react";
+import NewVisit from "./pages/Services/NewVisit";
 loadCldr(gregorian, numberData, timezoneData);
 setCulture("pl");
 
-// const Test = () => {
-//   const query = useTest();
-//   return <div>{query.isLoading ? "Loading...." : query.data?.message}</div>;
-// };
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +38,15 @@ const router = createBrowserRouter([
       {
         path: "services",
         element: <Services />,
+      },
+      {
+        path: "visit",
+        children: [
+          {
+            path: "new/:serviceId",
+            element: <NewVisit />,
+          },
+        ],
       },
       {
         path: "posts",
@@ -78,10 +84,6 @@ const router = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    path: "/test",
-    element: <Test />,
   },
 ]);
 

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { userContext } from "../../API/apiClient";
+import { ApiClient, userContext } from "../../API/apiClient";
 
 import styled from "styled-components";
 import logo from "../../assets/Sekret Piękna.svg";
@@ -8,6 +8,9 @@ import StyledLink from "../Utils/StyledLink";
 import UserBox from "../User/UserBox";
 import { User } from "@/API/types/user";
 import { useMe } from "@/API/hooks/UserHooks";
+import { set } from "zod";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 const Body = styled.div`
   width: 100%;
   display: flex;
@@ -69,6 +72,7 @@ function TopBar() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const login = useCallback((res: User | null) => {
     // if (res?.jti) sessionStorage.setItem("token", res.jti);
+    console.log(res, "topbar");
     if (!res) sessionStorage.removeItem("token");
     setCurrentUser(res);
   }, []);
@@ -79,11 +83,20 @@ function TopBar() {
     }),
     [currentUser, login]
   );
-  const u = useMe();
-  if (u.isSuccess && !currentUser) {
-    console.log(u.data, "current user");
-    setCurrentUser(u.data);
-  }
+  const u = useQuery({
+    queryKey: ["me"],
+    queryFn: () => ApiClient.me(),
+    retry: (fC, error: AxiosError) => {
+      return error?.response?.status === 401 ? false : true;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
+    refetchInterval: (query) => {
+      return query.isStale() && 1000 * 60 * 5;
+    },
+  });
+
   return (
     <userContext.Provider value={contextValue}>
       <Body>
@@ -98,6 +111,9 @@ function TopBar() {
               </StyledLink>
               <StyledLink linkStyle="nav" linkType="button" to="/services">
                 Usługi
+              </StyledLink>
+              <StyledLink linkStyle="nav" linkType="button" to="/posts">
+                Artykuły
               </StyledLink>
             </NavLinkContainer>
             {u.isFetched && <UserBox />}

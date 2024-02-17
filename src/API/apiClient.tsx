@@ -90,7 +90,7 @@ export class ApiClient {
       .then((res) => res.data);
   }
   static async getClients() {
-    return axiosInstance.get<User[]>(`/clients`, {
+    return axiosInstance.get<User[]>(`/users`, {
       headers: {
         Authorization: this.getToken(),
       },
