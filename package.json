@@ -31,7 +31,7 @@
     "@tiptap/extension-placeholder": "^2.1.13",
     "@tiptap/extension-text-style": "^2.1.13",
     "@tiptap/extension-typography": "^2.1.13",
-    "@tiptap/pm": "^2.1.13",
+    "@tiptap/pm": "^2.2.3",
     "@tiptap/react": "^2.2.3",
     "@tiptap/starter-kit": "^2.1.13",
     "axios": "^1.6.2",
