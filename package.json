@@ -33,7 +33,7 @@
     "@tiptap/extension-typography": "^2.1.13",
     "@tiptap/pm": "^2.2.3",
     "@tiptap/react": "^2.2.3",
-    "@tiptap/starter-kit": "^2.1.13",
+    "@tiptap/starter-kit": "^2.2.4",
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "cldr-data": "^36.0.1",
